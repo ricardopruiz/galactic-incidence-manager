@@ -7,9 +7,11 @@ const TopbarButton = () => {
 
   const isLandingPage = pageType === "/";
 
-  const buttonVisibility = isLandingPage ? "md:inline-flex md:py-4" : "";
-
-  return <CTAButton className={`hidden ${buttonVisibility}`} />;
+  return isLandingPage ? (
+    <CTAButton className="hidden md:inline-flex md:py-4" />
+  ) : (
+    <></>
+  );
 };
 
 export default TopbarButton;
