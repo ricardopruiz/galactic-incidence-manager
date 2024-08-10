@@ -21,6 +21,7 @@ const CTAButton = ({ className }: CTAButtonProps) => {
           src={"assets/arrow.svg"}
           width={10}
           height={10}
+          priority
         />
       </Link>
     </Button>
