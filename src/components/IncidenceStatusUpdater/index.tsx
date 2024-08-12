@@ -1,11 +1,17 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
-import IncidenceStatusSelect from "../IncidenceStatusSelect";
 import { Incidence } from "@/types/incidence";
-import { IncidenceStatus } from "@/types/incidenceStatus";
 import { changeIncidenceStatus } from "@/api/incidences";
 import { IncidencesContext } from "@/contexts/IncidencesContext";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { revalidateIncidenceList } from "@/lib/actions";
 
 type IncidenceStatusUpdaterProps = {
   incidence: Incidence;
@@ -13,24 +19,30 @@ type IncidenceStatusUpdaterProps = {
 
 const IncidenceStatusUpdater = ({ incidence }: IncidenceStatusUpdaterProps) => {
   const { statusList } = useContext(IncidencesContext);
-  const [isFetching, setIsFetching] = useState(false);
   const [statusId, setStatusId] = useState<string>(incidence.idList);
 
-  useEffect(() => {
-    if (statusId && statusId !== "" && statusId !== incidence.idList) {
-      setIsFetching(true);
-      changeIncidenceStatus(incidence.id, statusId)
-        .then()
-        .finally(() => setIsFetching(false));
+  const handleStatusChange = (idList: string) => {
+    setStatusId(idList);
+    if (idList && idList !== "" && idList !== incidence.idList) {
+      changeIncidenceStatus(incidence.id, idList).then(() =>
+        revalidateIncidenceList()
+      );
     }
-  }, [statusId, incidence.id, incidence.idList]);
+  };
 
   return (
-    <IncidenceStatusSelect
-      onChangeValue={setStatusId}
-      priorityStatusList={statusList}
-      selectedValue={statusId!}
-    />
+    <Select defaultValue={statusId!} onValueChange={handleStatusChange}>
+      <SelectTrigger>
+        <SelectValue placeholder="Estado de la tarea" />
+      </SelectTrigger>
+      <SelectContent>
+        {statusList.map((status) => (
+          <SelectItem key={status.id} value={status.id}>
+            {status.name}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 };
 

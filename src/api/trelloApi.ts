@@ -36,6 +36,9 @@ export const requestTrelloBoard = (
       "Content-type": "application/json",
     },
     cache: "no-store",
+    next: {
+      tags: ["incidence-list"],
+    },
   }).then((response) => response.json());
 };
 
