@@ -1,7 +1,6 @@
 import { getIncidence } from "@/api/incidences";
 import IncidenceForm from "@/components/IncidenceForm";
 import Title from "@/components/Title";
-import { Incidence } from "@/types/incidence";
 
 type EditIncidencePageProps = {
   params: { incidence: string };

@@ -35,6 +35,7 @@ export const requestTrelloBoard = (
     headers: {
       "Content-type": "application/json",
     },
+    cache: "no-store",
   }).then((response) => response.json());
 };
 
@@ -49,6 +50,7 @@ export const requestChangeListCard = (
     headers: {
       "Content-type": "application/json",
     },
+    cache: "no-store",
   });
 };
 
@@ -60,6 +62,7 @@ export const requestGetCard = (id: string) => {
     headers: {
       "Content-type": "application/json",
     },
+    cache: "no-store",
   }).then((response) => response.json());
 };
 
@@ -71,6 +74,7 @@ export const requestNewCard = (params: Record<string, string | undefined>) => {
     headers: {
       "Content-type": "application/json",
     },
+    cache: "no-store",
   });
 };
 
@@ -85,5 +89,6 @@ export const requestEditCard = (
     headers: {
       "Content-type": "application/json",
     },
+    cache: "no-store",
   });
 };
