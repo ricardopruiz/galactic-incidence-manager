@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -26,6 +27,8 @@ import {
 import { createNewIncidence, editIncidence } from "@/api/incidences";
 import { IncidencesContext } from "@/contexts/IncidencesContext";
 import { useContext } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import { getCorrectLabel } from "@/utils/incidence.utils";
 
 type IncidenceFormProps = {
   type: "new" | "edit";
@@ -33,23 +36,13 @@ type IncidenceFormProps = {
 };
 
 const IncidenceForm = ({ type, initialData }: IncidenceFormProps) => {
+  const { toast } = useToast();
+  const router = useRouter();
   const { priorityLabelsAvailable, statusList } = useContext(IncidencesContext);
 
   const sanitizePriorityId = () => {
     if (type === "edit") {
-      const priorityIsInOurLabel = priorityLabelsAvailable.findIndex(
-        (label) => label.id === initialData!.labels[0].id
-      );
-
-      if (priorityIsInOurLabel === -1) {
-        const newPriority = priorityLabelsAvailable.find(
-          (label) => label.name === initialData!.labels[0].name
-        );
-
-        return newPriority?.id;
-      }
-
-      return initialData?.labels[0].id;
+      getCorrectLabel(priorityLabelsAvailable, initialData!);
     }
     return null;
   };
@@ -67,13 +60,43 @@ const IncidenceForm = ({ type, initialData }: IncidenceFormProps) => {
     const { name, desc, priorityId } = data;
     const pendingStatus = statusList.findIndex((st) => st.name === "PENDIENTE");
 
-    createNewIncidence(name, desc, priorityId, statusList[pendingStatus].id);
+    createNewIncidence(name, desc, priorityId, statusList[pendingStatus].id)
+      .then(() => {
+        toast({
+          title: "Nueva Incidencia Creada",
+          description: "La incidencia se ha creado correctamente",
+        });
+
+        setTimeout(() => router.replace("/incidence-manager"), 300);
+      })
+      .catch((error) => {
+        toast({
+          title: "Error al crear la incidencia",
+          description: `Hubo un error al crear la incidencia. ${error}`,
+          variant: "destructive",
+        });
+      });
   };
 
   const sendEditIncidence = (data: IncidenceFormSchema) => {
     const { name, desc, priorityId } = data;
 
-    editIncidence(initialData!.id, name, desc, priorityId, initialData!.idList);
+    editIncidence(initialData!.id, name, desc, priorityId, initialData!.idList)
+      .then(() => {
+        toast({
+          title: "Incidencia Editada",
+          description: "La incidencia se ha editado correctamente",
+        });
+
+        setTimeout(() => router.replace("/incidence-manager"), 300);
+      })
+      .catch((error) => {
+        toast({
+          title: "Error al editar la incidencia",
+          description: `Hubo un error al editar la incidencia. ${error}`,
+          variant: "destructive",
+        });
+      });
   };
 
   const { handleSubmit, control } = formMethods;

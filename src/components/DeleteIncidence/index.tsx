@@ -14,14 +14,33 @@ import {
 import { Incidence } from "@/types/incidence";
 import InlineButton from "../InlineButton";
 import { Trash2Icon } from "lucide-react";
+import { useToast } from "../ui/use-toast";
+import { useRouter } from "next/navigation";
 
 type DeleteIncidenceProps = {
   incidence: Incidence;
 };
 
 const DeleteIncidence = ({ incidence }: DeleteIncidenceProps) => {
+  const router = useRouter();
+  const { toast } = useToast();
   const handleDelete = () => {
-    deleteIncidence(incidence.id);
+    deleteIncidence(incidence.id)
+      .then(() => {
+        toast({
+          title: "Incidencia Eliminada",
+          description: "La incidencia se ha eliminado correctamente",
+        });
+      })
+      .catch((error) => {
+        toast({
+          title: "Error al eliminar la incidencia",
+          description: `Hubo un error al eliminar la incidencia: ${error}`,
+          variant: "destructive",
+        });
+      });
+
+    setTimeout(() => router.refresh(), 200);
   };
 
   return (

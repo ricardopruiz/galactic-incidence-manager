@@ -17,7 +17,6 @@ const IncidenceManager = async () => {
   );
 };
 export const dynamic = "force-dynamic";
-
-export const revalidate = 10;
+export const revalidate = 0;
 
 export default IncidenceManager;
