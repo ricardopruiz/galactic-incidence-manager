@@ -7,7 +7,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { IncidenceStatus } from "@/types/incidenceStatus";
 import DateFormatter from "../DateFormatter";
 import {
   Tooltip,
@@ -16,7 +15,6 @@ import {
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
 import ColorBullet from "../ColorBullet";
-import IncidenceStatusSelect from "../IncidenceStatusSelect";
 import IncidenceStatusUpdater from "../IncidenceStatusUpdater";
 
 type IncidenceTableProps = {
