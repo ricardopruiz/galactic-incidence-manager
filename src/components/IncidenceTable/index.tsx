@@ -17,6 +17,8 @@ import {
 import ColorBullet from "../ColorBullet";
 import IncidenceStatusUpdater from "../IncidenceStatusUpdater";
 import Link from "next/link";
+import DeleteIncidence from "../DeleteIncidence";
+import InlineButton from "../InlineButton";
 
 type IncidenceTableProps = {
   incidences: Incidence[];
@@ -79,8 +81,11 @@ const IncidenceTable = ({ incidences = [] }: IncidenceTableProps) => {
                 <TableCell>
                   <IncidenceStatusUpdater incidence={incidence} />
                 </TableCell>
-                <TableCell>
-                  <Link href={`/edit/${incidence.id}`}>✏️</Link>
+                <TableCell className="flex flex-row gap-2">
+                  <Link href={`/edit/${incidence.id}`}>
+                    <InlineButton>✏️</InlineButton>
+                  </Link>
+                  <DeleteIncidence incidence={incidence} />
                 </TableCell>
               </TableRow>
             );
