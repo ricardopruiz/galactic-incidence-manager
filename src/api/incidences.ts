@@ -1,6 +1,7 @@
 import { IncidenceStatus } from "@/types/incidenceStatus";
 import {
   requestChangeListCard,
+  requestDeleteCard,
   requestEditCard,
   requestGetCard,
   requestNewCard,
@@ -67,4 +68,8 @@ export const editIncidence = (
   };
 
   return requestEditCard(id, params);
+};
+
+export const deleteIncidence = (id: string) => {
+  return requestDeleteCard(id);
 };

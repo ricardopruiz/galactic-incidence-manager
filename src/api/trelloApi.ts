@@ -92,3 +92,15 @@ export const requestEditCard = (
     cache: "no-store",
   });
 };
+
+export const requestDeleteCard = (id: string) => {
+  const urlWithParams = `${BASE_URL}cards/${id}?${getParams({})}`;
+
+  return fetch(urlWithParams, {
+    method: "DELETE",
+    headers: {
+      "Content-type": "application/json",
+    },
+    cache: "no-store",
+  });
+};
