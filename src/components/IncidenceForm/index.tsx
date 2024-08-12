@@ -23,7 +23,7 @@ import {
   SelectValue,
   SelectItem,
 } from "../ui/select";
-import { createNewIncidence } from "@/api/incidences";
+import { createNewIncidence, editIncidence } from "@/api/incidences";
 import { IncidencesContext } from "@/contexts/IncidencesContext";
 import { useContext } from "react";
 
@@ -35,12 +35,31 @@ type IncidenceFormProps = {
 const IncidenceForm = ({ type, initialData }: IncidenceFormProps) => {
   const { priorityLabelsAvailable, statusList } = useContext(IncidencesContext);
 
+  const sanitizePriorityId = () => {
+    if (type === "edit") {
+      const priorityIsInOurLabel = priorityLabelsAvailable.findIndex(
+        (label) => label.id === initialData!.labels[0].id
+      );
+
+      if (priorityIsInOurLabel === -1) {
+        const newPriority = priorityLabelsAvailable.find(
+          (label) => label.name === initialData!.labels[0].name
+        );
+
+        return newPriority?.id;
+      }
+
+      return initialData?.labels[0].id;
+    }
+    return null;
+  };
+
   const formMethods = useForm<IncidenceFormSchema>({
     resolver: incidenceFormResolver,
     defaultValues: {
       name: initialData?.name || "",
       desc: initialData?.desc || "",
-      priorityId: initialData?.labels[0].id || priorityLabelsAvailable[0].id,
+      priorityId: sanitizePriorityId() || priorityLabelsAvailable[0].id,
     },
   });
 
@@ -51,7 +70,12 @@ const IncidenceForm = ({ type, initialData }: IncidenceFormProps) => {
     createNewIncidence(name, desc, priorityId, statusList[pendingStatus].id);
   };
 
-  const sendEditIncidence = (data: IncidenceFormSchema) => {};
+  const sendEditIncidence = (data: IncidenceFormSchema) => {
+    debugger;
+    const { name, desc, priorityId } = data;
+
+    editIncidence(initialData!.id, name, desc, priorityId, initialData!.idList);
+  };
 
   const { handleSubmit, control } = formMethods;
 

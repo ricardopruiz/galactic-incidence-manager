@@ -16,6 +16,7 @@ import {
 } from "@radix-ui/react-tooltip";
 import ColorBullet from "../ColorBullet";
 import IncidenceStatusUpdater from "../IncidenceStatusUpdater";
+import Link from "next/link";
 
 type IncidenceTableProps = {
   incidences: Incidence[];
@@ -77,6 +78,9 @@ const IncidenceTable = ({ incidences = [] }: IncidenceTableProps) => {
                 <TableCell>{incidence.labels[0].name}</TableCell>
                 <TableCell>
                   <IncidenceStatusUpdater incidence={incidence} />
+                </TableCell>
+                <TableCell>
+                  <Link href={`/edit/${incidence.id}`}>✏️</Link>
                 </TableCell>
               </TableRow>
             );

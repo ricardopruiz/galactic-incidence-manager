@@ -2,6 +2,7 @@ import { IncidenceStatus } from "@/types/incidenceStatus";
 import {
   requestChangeListCard,
   requestEditCard,
+  requestGetCard,
   requestNewCard,
   requestTrelloBoard,
 } from "./trelloApi";
@@ -27,6 +28,10 @@ export const changeIncidenceStatus = (
   statusId: string
 ) => {
   return requestChangeListCard(incidenceId, { idList: statusId });
+};
+
+export const getIncidence = (incidenceId: string) => {
+  return requestGetCard(incidenceId);
 };
 
 export const createNewIncidence = (
