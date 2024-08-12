@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Incidence } from "@/types/incidence";
 import InlineButton from "../InlineButton";
-import DeleteIcon from "../Icons/DeleteIcon";
 import { Trash2Icon } from "lucide-react";
 
 type DeleteIncidenceProps = {
@@ -28,15 +27,15 @@ const DeleteIncidence = ({ incidence }: DeleteIncidenceProps) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <InlineButton onClick={handleDelete}>
+        <InlineButton>
           <Trash2Icon />
         </InlineButton>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{`¿Borrar incidencia ${incidence.name}?`}</AlertDialogTitle>
+          <AlertDialogTitle>{`¿Borrar incidencia ${incidence.id}?`}</AlertDialogTitle>
           <AlertDialogDescription>
-            {`¿Está seguro de que desea borrar la incidencia con identificador ${incidence.id}?`}
+            {`¿Está seguro de que desea borrar la incidencia ${incidence.name}?`}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
