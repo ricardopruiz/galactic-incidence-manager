@@ -23,7 +23,7 @@ import {
   SelectValue,
   SelectItem,
 } from "../ui/select";
-import { createNewIncidence } from "@/api/incidences";
+import { createNewIncidence, editIncidence } from "@/api/incidences";
 import { IncidencesContext } from "@/contexts/IncidencesContext";
 import { useContext } from "react";
 
@@ -51,7 +51,11 @@ const IncidenceForm = ({ type, initialData }: IncidenceFormProps) => {
     createNewIncidence(name, desc, priorityId, statusList[pendingStatus].id);
   };
 
-  const sendEditIncidence = (data: IncidenceFormSchema) => {};
+  const sendEditIncidence = (data: IncidenceFormSchema) => {
+    const { name, desc, priorityId } = data;
+
+    editIncidence(initialData!.id, name, desc, priorityId, initialData!.idList);
+  };
 
   const { handleSubmit, control } = formMethods;
 

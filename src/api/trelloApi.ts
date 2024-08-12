@@ -52,6 +52,17 @@ export const requestChangeListCard = (
   });
 };
 
+export const requestGetCard = (id: string) => {
+  const urlWithParams = `${BASE_URL}cards/${id}?${getParams({})}`;
+
+  return fetch(urlWithParams, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+    },
+  }).then((response) => response.json());
+};
+
 export const requestNewCard = (params: Record<string, string | undefined>) => {
   const urlWithParams = `${BASE_URL}cards/?${getParams({ params })}`;
 
