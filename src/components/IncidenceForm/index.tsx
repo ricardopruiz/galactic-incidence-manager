@@ -71,7 +71,6 @@ const IncidenceForm = ({ type, initialData }: IncidenceFormProps) => {
   };
 
   const sendEditIncidence = (data: IncidenceFormSchema) => {
-    debugger;
     const { name, desc, priorityId } = data;
 
     editIncidence(initialData!.id, name, desc, priorityId, initialData!.idList);

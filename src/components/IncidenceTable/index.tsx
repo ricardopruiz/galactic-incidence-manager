@@ -19,6 +19,7 @@ import IncidenceStatusUpdater from "../IncidenceStatusUpdater";
 import Link from "next/link";
 import DeleteIncidence from "../DeleteIncidence";
 import InlineButton from "../InlineButton";
+import { Edit2Icon } from "lucide-react";
 
 type IncidenceTableProps = {
   incidences: Incidence[];
@@ -81,9 +82,11 @@ const IncidenceTable = ({ incidences = [] }: IncidenceTableProps) => {
                 <TableCell>
                   <IncidenceStatusUpdater incidence={incidence} />
                 </TableCell>
-                <TableCell className="flex flex-row gap-2">
+                <TableCell className="flex flex-row w-fit gap-2">
                   <Link href={`/edit/${incidence.id}`}>
-                    <InlineButton>✏️</InlineButton>
+                    <InlineButton>
+                      <Edit2Icon />
+                    </InlineButton>
                   </Link>
                   <DeleteIncidence incidence={incidence} />
                 </TableCell>
