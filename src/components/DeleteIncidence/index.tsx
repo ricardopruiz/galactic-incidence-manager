@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Incidence } from "@/types/incidence";
 import InlineButton from "../InlineButton";
+import DeleteIcon from "../Icons/DeleteIcon";
+import { Trash2Icon } from "lucide-react";
 
 type DeleteIncidenceProps = {
   incidence: Incidence;
@@ -26,7 +28,9 @@ const DeleteIncidence = ({ incidence }: DeleteIncidenceProps) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <InlineButton onClick={handleDelete}>🗑️</InlineButton>
+        <InlineButton onClick={handleDelete}>
+          <Trash2Icon />
+        </InlineButton>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
