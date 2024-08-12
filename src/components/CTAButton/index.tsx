@@ -10,7 +10,7 @@ const CTAButton = ({ className }: CTAButtonProps) => {
   return (
     <Button asChild className="px-10 py-5 rounded-[8px] bg-accent md:p-5">
       <Link
-        href={"/task-manager"}
+        href={"/incidence-manager"}
         className={`flex justify-center gap-[10px] h-auto  ${className}`}
       >
         <span className="font-normal text-lg/[30px] md:font-medium md:text-lg/[23px]">
