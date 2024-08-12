@@ -80,7 +80,10 @@ const IncidenceTable = ({ incidences = [] }: IncidenceTableProps) => {
                 </TableCell>
                 <TableCell>{incidence.labels[0].name}</TableCell>
                 <TableCell>
-                  <IncidenceStatusUpdater incidence={incidence} />
+                  <IncidenceStatusUpdater
+                    incidence={incidence}
+                    key={`status-select-${incidence.id}`}
+                  />
                 </TableCell>
                 <TableCell className="flex flex-row w-fit gap-2">
                   <Link href={`/edit/${incidence.id}`}>

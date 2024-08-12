@@ -29,6 +29,10 @@ import { IncidencesContext } from "@/contexts/IncidencesContext";
 import { useContext } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { getCorrectLabel } from "@/utils/incidence.utils";
+import {
+  revalidateIncidenceForm,
+  revalidateIncidenceList,
+} from "@/lib/actions";
 
 type IncidenceFormProps = {
   type: "new" | "edit";
@@ -65,15 +69,18 @@ const IncidenceForm = ({ type, initialData }: IncidenceFormProps) => {
         toast({
           title: "Nueva Incidencia Creada",
           description: "La incidencia se ha creado correctamente",
+          duration: 5000,
         });
 
-        setTimeout(() => router.replace("/incidence-manager"), 300);
+        revalidateIncidenceList();
+        router.push("/incidence-manager");
       })
       .catch((error) => {
         toast({
           title: "Error al crear la incidencia",
           description: `Hubo un error al crear la incidencia. ${error}`,
           variant: "destructive",
+          duration: 5000,
         });
       });
   };
@@ -86,15 +93,19 @@ const IncidenceForm = ({ type, initialData }: IncidenceFormProps) => {
         toast({
           title: "Incidencia Editada",
           description: "La incidencia se ha editado correctamente",
+          duration: 5000,
         });
 
-        setTimeout(() => router.replace("/incidence-manager"), 300);
+        revalidateIncidenceForm();
+        revalidateIncidenceList();
+        router.push("/incidence-manager");
       })
       .catch((error) => {
         toast({
           title: "Error al editar la incidencia",
           description: `Hubo un error al editar la incidencia. ${error}`,
           variant: "destructive",
+          duration: 5000,
         });
       });
   };
