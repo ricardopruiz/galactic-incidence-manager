@@ -1,8 +1,9 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import priorityLabels from "@/services/priorityList";
-import { getIncidenceStatusLists } from "@/api/incidences";
+
 import { IncidenceStatus } from "@/types/incidenceStatus";
 import { IncidencesContextData } from "./IncidencesContext.types";
+import { fetchStatusesList } from "@/api/trelloApi";
 
 const IncidencesContextInitialState: IncidencesContextData = {
   priorityLabelsAvailable: [],
@@ -18,7 +19,7 @@ export const IncidencesContextProvider = ({ children }: any) => {
   const priorityLabelsAvailable = priorityLabels;
 
   useEffect(() => {
-    getIncidenceStatusLists().then((statusItems) => setStatusList(statusItems));
+    fetchStatusesList().then(setStatusList);
   }, []);
 
   return (

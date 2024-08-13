@@ -4,7 +4,7 @@ export type Incidence = {
   checkItemStates: any[];
   closed: boolean;
   dueComplete: boolean;
-  dateLastActivity: Date;
+  dateLastActivity: Date | string;
   desc: string;
   descData: DescData;
   due: null;
@@ -23,7 +23,8 @@ export type Incidence = {
   name: string;
   pos: number;
   shortLink: string;
-  shortURL: string;
+  shortURL?: string;
+  shortUrl?: string;
   start: null;
   subscribed: boolean;
   url: string;
@@ -48,7 +49,7 @@ export type Badges = {
   description: boolean;
   due: null;
   dueComplete: boolean;
-  lastUpdatedByAI: boolean;
+  lastUpdatedByAi: boolean;
   start: null;
 };
 
@@ -65,18 +66,10 @@ export type Cover = {
   idAttachment: null;
   color: null;
   idUploadedBackground: null;
-  size: Size;
-  brightness: Brightness;
+  size: string;
+  brightness: string;
   idPlugin: null;
 };
-
-export enum Brightness {
-  Dark = "dark",
-}
-
-export enum Size {
-  Normal = "normal",
-}
 
 export type DescData = {
   emoji: {};
@@ -85,21 +78,7 @@ export type DescData = {
 export type Label = {
   id: string;
   idBoard: string;
-  name: Name;
-  color: Color;
+  name: "ALTA" | "BAJA" | "CRÍTICA" | "MEDIA";
+  color: "blue" | "orange" | "red" | "yellow";
   uses: number;
 };
-
-export enum Color {
-  Blue = "blue",
-  Orange = "orange",
-  Red = "red",
-  Yellow = "yellow",
-}
-
-export enum Name {
-  Alta = "ALTA",
-  Baja = "BAJA",
-  Crítica = "CRÍTICA",
-  Media = "MEDIA",
-}

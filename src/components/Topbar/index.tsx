@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import CTAButton from "../CTAButton";
 import TopbarButton from "./TopbarButton";
 
 const Topbar = () => {

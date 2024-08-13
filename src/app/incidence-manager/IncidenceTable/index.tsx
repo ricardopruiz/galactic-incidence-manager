@@ -7,19 +7,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DateFormatter from "../DateFormatter";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@radix-ui/react-tooltip";
-import ColorBullet from "../ColorBullet";
-import IncidenceStatusUpdater from "../IncidenceStatusUpdater";
+import ColorBullet from "./ColorBullet";
+import IncidenceStatusUpdater from "./IncidenceStatusUpdater";
 import Link from "next/link";
-import DeleteIncidence from "../DeleteIncidence";
-import InlineButton from "../InlineButton";
+import DeleteIncidence from "./DeleteIncidence";
+import InlineButton from "@/components/InlineButton";
 import { Edit2Icon } from "lucide-react";
+import { formatDateTime } from "@/lib/dates";
+import TooltipWrapper from "@/components/TooltipWrapper";
 
 type IncidenceTableProps = {
   incidences: Incidence[];
@@ -48,35 +43,19 @@ const IncidenceTable = ({ incidences = [] }: IncidenceTableProps) => {
                   <ColorBullet status={incidence.labels[0]} />
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger className="font-medium max-w-10 truncate">
-                        {incidence.id}
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="bg-foreground text-primary p-4 rounded-sm shadow opacity-75">
-                          {incidence.id}
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <TooltipWrapper message={incidence.id}>
+                    <div className="font-medium max-w-10 truncate">
+                      {incidence.id}
+                    </div>
+                  </TooltipWrapper>
                 </TableCell>
                 <TableCell>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger className="text-left">
-                        {incidence.name}
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="bg-foreground text-primary p-4 rounded-sm shadow opacity-95">
-                          {incidence.desc}
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <TooltipWrapper message={incidence.desc}>
+                    {incidence.name}
+                  </TooltipWrapper>
                 </TableCell>
                 <TableCell>
-                  <DateFormatter date={incidence.dateLastActivity} />
+                  {formatDateTime(new Date(incidence.dateLastActivity))}
                 </TableCell>
                 <TableCell>{incidence.labels[0].name}</TableCell>
                 <TableCell>
