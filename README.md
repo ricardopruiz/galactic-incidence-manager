@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This repository contains the Galactic Incidence Manager application for Logixs Company. This tool allows users to list, edit, create, and delete Galactic Incidences.
 
 ## Getting Started
 
-First, run the development server:
+To connect to the Trello API, ensure you have a .dev configuration file set up.
+
+### Development Server
+
+To start the development server, run the following command:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Running Tests
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+To run the tests, use the following command:
 
-## Learn More
+```bash
+npm run test
+```
 
-To learn more about Next.js, take a look at the following resources:
+For continuous testing, where tests will re-run automatically upon saving a file, use:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run test
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Production Build
 
-## Deploy on Vercel
+To create a production build, execute:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run build
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## About the app
+
+### Landing Page
+
+The Landing Page serves as the entry point to the application. You can return to this page by clicking the logo in the top bar. Clicking on any "Acceder" button will navigate you to the Incidence Manager.
+
+### Incidence Manager
+
+Here you can see a list of incidences. You can see on the pilot the color incidence, hover it to see the status and hover on the name of the incidence to see the incidence description
+
+In addition, you can create, edit or delete incidences
+
+### Create a new Incidence
+
+To create a new incidence, fill in the required information and submit the form. The new incidence will then appear in the Incidence Manager.
+
+### Update an actual Incidence
+
+You can edit any incidence by clicking the pencil icon on the right side of each incidence.
+
+### Delete an Incidence
+
+To delete an incidence, click the trash icon located on the right side of each incidence.
+
+## Changing Incidence Status
+
+Click on the status of an incidence to change it. The incidence will then be moved to the top of the "Pending" or "Done" group based on its new status.
+
+## Technologies Used
+
+The following technologies were used in the development of this application:
+
+- `Next.JS 14`
+- `React 18`
+- `lucide-react` edit, spinner and delete icons
+- `Tailwind CSS`
+- `Shadcn`
+- `Typescript 5`
