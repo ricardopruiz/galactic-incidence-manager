@@ -17,22 +17,17 @@ import {
   IncidenceFormSchema,
 } from "./IncidenceForm.schema";
 import { Incidence } from "@/types/incidence";
-import {
-  SelectContent,
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectItem,
-} from "../ui/select";
-import { createNewIncidence, editIncidence } from "@/api/incidences";
+
 import { IncidencesContext } from "@/contexts/IncidencesContext";
 import { useContext } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { getCorrectLabel } from "@/utils/incidence.utils";
+import { getCorrectLabel } from "@/lib/incidence.utils";
 import {
   revalidateIncidenceForm,
   revalidateIncidenceList,
 } from "@/lib/actions";
+import CustomSelect from "../CustomSelect";
+import { postNewIncidence, updateIncidence } from "@/api/trelloApi";
 
 type IncidenceFormProps = {
   type: "new" | "edit";
@@ -46,7 +41,7 @@ const IncidenceForm = ({ type, initialData }: IncidenceFormProps) => {
 
   const sanitizePriorityId = () => {
     if (type === "edit") {
-      getCorrectLabel(priorityLabelsAvailable, initialData!);
+      return getCorrectLabel(priorityLabelsAvailable, initialData!);
     }
     return null;
   };
@@ -62,9 +57,15 @@ const IncidenceForm = ({ type, initialData }: IncidenceFormProps) => {
 
   const sendNewIncidence = (data: IncidenceFormSchema) => {
     const { name, desc, priorityId } = data;
-    const pendingStatus = statusList.findIndex((st) => st.name === "PENDIENTE");
+    const pendingStatus =
+      statusList.find((st) => st.name === "PENDIENTE") || statusList[0];
 
-    createNewIncidence(name, desc, priorityId, statusList[pendingStatus].id)
+    postNewIncidence({
+      name,
+      desc,
+      priorityId,
+      statusId: pendingStatus.id,
+    })
       .then(() => {
         toast({
           title: "Nueva Incidencia Creada",
@@ -88,7 +89,12 @@ const IncidenceForm = ({ type, initialData }: IncidenceFormProps) => {
   const sendEditIncidence = (data: IncidenceFormSchema) => {
     const { name, desc, priorityId } = data;
 
-    editIncidence(initialData!.id, name, desc, priorityId, initialData!.idList)
+    updateIncidence(initialData!.id, {
+      name,
+      desc,
+      priorityId,
+      statusId: initialData!.idList,
+    })
       .then(() => {
         toast({
           title: "Incidencia Editada",
@@ -157,21 +163,11 @@ const IncidenceForm = ({ type, initialData }: IncidenceFormProps) => {
                 <FormItem>
                   <FormLabel>Prioridad </FormLabel>
                   <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Estado de la tarea" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {priorityLabelsAvailable.map((p) => (
-                          <SelectItem key={p.id} value={p.id}>
-                            {p.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <CustomSelect
+                      onChangeValue={field.onChange}
+                      selectedValue={field.value}
+                      options={priorityLabelsAvailable}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

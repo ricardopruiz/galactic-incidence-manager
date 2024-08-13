@@ -1,8 +1,17 @@
-const BASE_URL = "https://api.trello.com/1/";
+import { Incidence } from "@/types/incidence";
+import { IncidenceStatus } from "@/types/incidenceStatus";
 
-type ParamsProps = { params?: Record<string, string | undefined> };
+const BASE_URL = "https://api.trello.com/1";
+const boardId = process.env.NEXT_PUBLIC_BOARD_ID;
 
-const getParams = ({ params }: ParamsProps) => {
+type IncidenceData = {
+  name: string;
+  desc: string;
+  priorityId: string;
+  statusId: string;
+};
+
+const getParams = (params?: Record<string, string | undefined>) => {
   const API_KEY = process.env.NEXT_PUBLIC_TRELLO_API_KEY;
   const API_TOKEN = process.env.NEXT_PUBLIC_TELLO_TOKEN;
 
@@ -21,14 +30,8 @@ const getParams = ({ params }: ParamsProps) => {
   }).toString();
 };
 
-export const requestTrelloBoard = (
-  id: string,
-  typeOfData: "cards" | "lists",
-  params: Record<string, string | undefined>
-) => {
-  const urlWithParams = `${BASE_URL}boards/${id}/${typeOfData}?${getParams(
-    params
-  )}`;
+export const fetchIncidences = (): Promise<Incidence[]> => {
+  const urlWithParams = `${BASE_URL}/boards/${boardId}/cards?${getParams()}`;
 
   return fetch(urlWithParams, {
     method: "GET",
@@ -42,11 +45,25 @@ export const requestTrelloBoard = (
   }).then((response) => response.json());
 };
 
-export const requestChangeListCard = (
-  cardId: string,
-  params: Record<string, string | undefined>
-) => {
-  const urlWithParams = `${BASE_URL}cards/${cardId}?${getParams({ params })}`;
+export const fetchStatusesList = (): Promise<IncidenceStatus[]> => {
+  const urlWithParams = `${BASE_URL}/boards/${boardId}/lists?${getParams()}`;
+
+  return fetch(urlWithParams, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+    },
+    cache: "no-store",
+    next: {
+      tags: ["incidence-list"],
+    },
+  }).then((response) => response.json());
+};
+
+export const updateIncidenceStatus = (cardId: string, statusId: string) => {
+  const urlWithParams = `${BASE_URL}/cards/${cardId}?${getParams({
+    idList: statusId,
+  })}`;
 
   return fetch(urlWithParams, {
     method: "PUT",
@@ -57,8 +74,8 @@ export const requestChangeListCard = (
   });
 };
 
-export const requestGetCard = (id: string) => {
-  const urlWithParams = `${BASE_URL}cards/${id}?${getParams({})}`;
+export const fetchIncidence = (id: string): Promise<Incidence> => {
+  const urlWithParams = `${BASE_URL}/cards/${id}?${getParams()}`;
 
   return fetch(urlWithParams, {
     method: "GET",
@@ -69,8 +86,19 @@ export const requestGetCard = (id: string) => {
   }).then((response) => response.json());
 };
 
-export const requestNewCard = (params: Record<string, string | undefined>) => {
-  const urlWithParams = `${BASE_URL}cards/?${getParams({ params })}`;
+export const postNewIncidence = ({
+  name,
+  desc,
+  priorityId,
+  statusId,
+}: IncidenceData) => {
+  const urlWithParams = `${BASE_URL}/cards/?${getParams({
+    name,
+    desc,
+    idLabels: priorityId,
+    idList: statusId,
+    pos: "top",
+  })}`;
 
   return fetch(urlWithParams, {
     method: "POST",
@@ -81,11 +109,17 @@ export const requestNewCard = (params: Record<string, string | undefined>) => {
   });
 };
 
-export const requestEditCard = (
+export const updateIncidence = (
   id: string,
-  params: Record<string, string | undefined>
+  { name, desc, priorityId, statusId }: IncidenceData
 ) => {
-  const urlWithParams = `${BASE_URL}cards/${id}?${getParams({ params })}`;
+  const urlWithParams = `${BASE_URL}/cards/${id}?${getParams({
+    name,
+    desc,
+    idLabels: priorityId,
+    idList: statusId,
+    pos: "top",
+  })}`;
 
   return fetch(urlWithParams, {
     method: "PUT",
@@ -96,8 +130,8 @@ export const requestEditCard = (
   });
 };
 
-export const requestDeleteCard = (id: string) => {
-  const urlWithParams = `${BASE_URL}cards/${id}?${getParams({})}`;
+export const deleteIncidence = (id: string) => {
+  const urlWithParams = `${BASE_URL}/cards/${id}?${getParams({})}`;
 
   return fetch(urlWithParams, {
     method: "DELETE",

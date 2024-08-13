@@ -1,10 +1,10 @@
-import { getIncidences } from "@/api/incidences";
-import IncidenceTable from "@/components/IncidenceTable";
-import NewIncidenceButton from "@/components/NewIncidenceButton";
+import { fetchIncidences } from "@/api/trelloApi";
+import IncidenceTable from "./IncidenceTable";
+import NewIncidenceButton from "@/app/incidence-manager/NewIncidenceButton";
 import Title from "@/components/Title";
 
 const IncidenceManager = async () => {
-  const incidences = await getIncidences();
+  const incidences = await fetchIncidences();
 
   return (
     <div className="px-8 py-4 overflow-auto md:px-12 md:py-8 gap-4">

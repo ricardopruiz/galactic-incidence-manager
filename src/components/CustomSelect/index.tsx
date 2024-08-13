@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Select,
   SelectContent,
@@ -7,17 +8,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { IncidenceStatus } from "@/types/incidenceStatus";
-
 type IncidenceStatusSelectProps = {
-  priorityStatusList: IncidenceStatus[];
+  options: { id: string; name: string }[];
   selectedValue: string;
   onChangeValue(status: string): void;
+  placeholder?: string;
 };
 
-const IncidenceStatusSelect = ({
-  priorityStatusList,
+const CustomSelect = ({
+  options,
   selectedValue,
+  placeholder,
   onChangeValue,
 }: IncidenceStatusSelectProps) => {
   return (
@@ -26,10 +27,10 @@ const IncidenceStatusSelect = ({
       onValueChange={(statusId) => onChangeValue(statusId)}
     >
       <SelectTrigger>
-        <SelectValue placeholder="Estado de la tarea" />
+        <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
-        {priorityStatusList.map((status) => (
+        {options.map((status) => (
           <SelectItem key={status.id} value={status.id}>
             {status.name}
           </SelectItem>
@@ -39,4 +40,4 @@ const IncidenceStatusSelect = ({
   );
 };
 
-export default IncidenceStatusSelect;
+export default CustomSelect;

@@ -1,5 +1,5 @@
 "use client";
-import { deleteIncidence } from "@/api/incidences";
+import { deleteIncidence } from "@/api/trelloApi";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,9 +12,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Incidence } from "@/types/incidence";
-import InlineButton from "../InlineButton";
+import InlineButton from "@/components/InlineButton";
+import { useToast } from "@/components/ui/use-toast";
 import { Trash2Icon } from "lucide-react";
-import { useToast } from "../ui/use-toast";
 import { revalidateIncidenceList } from "@/lib/actions";
 
 type DeleteIncidenceProps = {
